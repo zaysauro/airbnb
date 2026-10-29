@@ -31,11 +31,11 @@ export function AddPropertyForm() {
 		try {
 			urlSchema.parse(url)
 			startTransition(async () => {
-				await createProperty(url)
+				try { await createProperty(url) } catch { setError("Não foi possível cadastrar o imóvel."); return }
 				setUrl("")
 				toast({
 					title: "Property Added",
-					description: "You'll receive an email when your listing is ready."
+					description: "Imóvel salvo. A importação automática requer a integração Apify."
 				})
 				router.refresh()
 			})

@@ -2,7 +2,7 @@ import { Navbar } from "@/app/_components/Navbar"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { auth } from "@clerk/nextjs/server"
+import { auth } from "@/lib/auth"
 import { Code2, MessageSquare, Search, Users } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -33,7 +33,7 @@ export default async function MarketingPage() {
 								<span className="text-primary">Your Relationships.</span>
 							</h1>
 							<p className="mt-6 text-xl text-gray-600">
-								Import your Airbnb listings to Freshair. Connect directly with
+								Import your Airbnb listings to Cadena - Airbnb. Connect directly with
 								guests, avoid fees, and take control of your rental business—all
 								while keeping your data yours.
 							</p>
@@ -132,7 +132,7 @@ export default async function MarketingPage() {
 										Self-Host & Customize
 									</h3>
 									<p className="mt-2 text-gray-600">
-										Deploy Freshair on your own infrastructure. Modify the code
+										Deploy Cadena - Airbnb on your own infrastructure. Modify the code
 										to match your exact needs. Your platform, your way.
 									</p>
 								</CardContent>
@@ -148,7 +148,7 @@ export default async function MarketingPage() {
 									</h3>
 									<p className="mt-2 text-gray-600">
 										Join a community of independent hosts. Share experiences,
-										contribute code, and help shape the future of Freshair.
+										contribute code, and help shape the future of Cadena - Airbnb.
 									</p>
 								</CardContent>
 							</Card>

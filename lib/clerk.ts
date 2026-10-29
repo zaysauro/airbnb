@@ -1,37 +1,21 @@
+import "server-only"
 import { properties } from "@/db/schema"
 import { db } from "@/lib/db"
-import { clerkClient } from "@clerk/nextjs/server"
 import { eq } from "drizzle-orm"
-import "server-only"
-
-export async function getUserEmailAddresses(clerkId: string) {
-	try {
-		const client = await clerkClient()
-		return (await client.users.getUser(clerkId)).emailAddresses
-			.filter((email) => email.verification)
-			.map((email) => email.emailAddress)
-	} catch (error) {
-		console.error("Error fetching user email info:", error)
-		throw error
-	}
+import postgres from "postgres"
+export async function getUserEmailAddresses(userId: string) {
+ const connection = process.env.POSTGRES_URL
+ if (!connection) throw new Error("Database not configured")
+ const sql = postgres(connection, { max: 1 })
+ try {
+  const users = await sql`SELECT email FROM app_users WHERE id = ${userId} LIMIT 1`
+  return users.map((user) => String(user.email))
+ } finally { await sql.end() }
 }
-
 export async function getHostEmailAddress(propertyId: string) {
-	try {
-		const property = await db
-			.select()
-			.from(properties)
-			.where(eq(properties.id, propertyId))
-			.limit(1)
-			.then((property) => property[0])
-		if (!property) {
-			throw new Error(`No property found with id: ${propertyId}`)
-		}
-
-		const emails = await getUserEmailAddresses(property.clerkId)
-		return emails[0] // Return first verified email
-	} catch (error) {
-		console.error("Error fetching host email:", error)
-		throw error
-	}
+ const [property] = await db.select().from(properties).where(eq(properties.id, propertyId)).limit(1)
+ if (!property) throw new Error("Property not found")
+ const emails = await getUserEmailAddresses(property.clerkId)
+ if (!emails[0]) throw new Error("Property owner has no email")
+ return emails[0]
 }

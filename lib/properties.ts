@@ -2,7 +2,7 @@
 
 import type { Listing } from "@/data/types"
 import { type NewProperty, properties } from "@/db/schema"
-import { auth } from "@clerk/nextjs/server"
+import { auth } from "@/lib/auth"
 import { desc, eq, sql } from "drizzle-orm"
 import { nanoid } from "nanoid"
 import "server-only"
@@ -38,7 +38,9 @@ export async function createProperty(url: string) {
 	await db.insert(properties).values(newProperty)
 
 	// Then queue scraping
-	await queueScraping(validatedUrl, newProperty.id)
+	if (process.env.APIFY_API_TOKEN && process.env.WEBHOOK_SECRET && process.env.VERCEL_URL) {
+		await queueScraping(validatedUrl, newProperty.id)
+	}
 
 	return { success: true }
 }

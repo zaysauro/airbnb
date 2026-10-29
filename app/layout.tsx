@@ -1,5 +1,4 @@
 import { Toaster } from "@/components/ui/toaster"
-import { ClerkProvider } from "@clerk/nextjs"
 import type { Metadata } from "next"
 import "./globals.css"
 
@@ -41,10 +40,7 @@ export const metadata: Metadata = {
 			}
 		]
 	},
-	viewport: {
-		width: "device-width",
-		initialScale: 1
-	},
+	
 	robots: {
 		index: true,
 		follow: true
@@ -71,7 +67,7 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<ClerkProvider>
+		<>
 			<html lang="en">
 				<head>
 					<link rel="stylesheet" href="https://use.typekit.net/gnn8txw.css" />
@@ -81,6 +77,6 @@ export default function RootLayout({
 					<Toaster />
 				</body>
 			</html>
-		</ClerkProvider>
+		</>
 	)
 }

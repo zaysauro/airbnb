@@ -10,10 +10,7 @@ import { NextResponse } from "next/server"
 
 
 export async function POST(request: Request) {
-	logger.info("Received webhook request", {
-		headers: Object.fromEntries(request.headers),
-		url: request.url
-	})
+	logger.info("Received webhook request")
 
 	// Verify the secret token
 	const url = new URL(request.url)
@@ -25,7 +22,7 @@ export async function POST(request: Request) {
 
 	try {
 		const rawPayload = await request.json()
-		logger.info("Webhook payload received", { payload: rawPayload })
+		logger.info("Webhook payload received")
 
 		const payload = ApifyWebhookPayloadSchema.safeParse(rawPayload)
 		if (!payload.success) {

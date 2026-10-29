@@ -1,10 +1,14 @@
 import { Suspense } from "react"
+import { auth } from "@/lib/auth"
+import { redirect } from "next/navigation"
 import { Navbar } from "../_components/Navbar"
 import { AddPropertyForm } from "./_components/add-property-form"
 import { PropertyCardSkeleton } from "./_components/loading-skeleton"
 import { PropertiesList } from "./_components/properties-list"
 
-export default function Dashboard() {
+export default async function Dashboard() {
+	const { userId } = await auth()
+	if (!userId) redirect("/login")
 	return (
 		<div>
 			<Navbar />
