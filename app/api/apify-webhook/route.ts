@@ -82,12 +82,12 @@ export async function POST(request: Request) {
 			await postmark.sendEmail({
 				From: FROM_EMAIL,
 				To: userEmails[0],
-				Subject: "Your property listing has been processed",
+				Subject: "Seu anúncio foi processado",
 				TextBody: `"${
 					job.properties.listingData?.data.h1Title as string
-				}" has been successfully processed and is now available in your dashboard.
+				}" foi processado e está disponível no seu painel.
 
-You can check out your listing at https://cadena-airbnb-bruno-02a0.vercel.app/listing/${job.properties.id}`
+Confira seu anúncio em https://cadena-airbnb-bruno-02a0.vercel.app/listing/${job.properties.id}`
 			})
 			logger.info("Notification email sent", { to: userEmails[0] })
 		}

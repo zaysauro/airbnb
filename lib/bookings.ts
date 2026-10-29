@@ -21,13 +21,13 @@ export async function createBooking(data: BookingData) {
 	await postmark.sendEmail({
 		From: FROM_EMAIL,
 		To: hostEmail,
-		Subject: "New Booking Request",
+		Subject: "Nova solicitação de reserva",
 		TextBody: `
-            New booking request:
-            Guest Email: ${data.email}
-            Guests: ${data.guests}
-            Dates: ${data.dates.from?.toLocaleDateString()} - ${data.dates.to?.toLocaleDateString()}
-            Price per night: $${data.pricePerNight}
+            Nova solicitação de reserva:
+            E-mail do hóspede: ${data.email}
+            Hóspedes: ${data.guests}
+            Datas: ${data.dates.from?.toLocaleDateString()} - ${data.dates.to?.toLocaleDateString()}
+            Preço por diária: $${data.pricePerNight}
         `
 	})
 }
