@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/tooltip"
 import type { VisualProperty } from "@/lib/properties"
 import { deleteProperty, updatePropertyPrice } from "@/lib/properties"
-import { motion } from "framer-motion"
 import { Home, Trash2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
@@ -70,10 +69,7 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 	}
 
 	return (
-		<motion.div
-			whileHover={{ scale: 1.02 }}
-			whileTap={{ scale: 0.98 }}
-			transition={{ type: "spring", stiffness: 400, damping: 17 }}
+		<div
 			onClick={handleCardClick}
 		>
 			<Card
@@ -181,6 +177,6 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 					</div>
 				</CardContent>
 			</Card>
-		</motion.div>
+		</div>
 	)
 }
