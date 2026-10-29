@@ -321,10 +321,7 @@ export async function blockedDates(id:string) {
 export async function importAllPropertyPhotos() {
  const {userId}=await auth();if(!userId)throw new Error("Acesso negado")
  const owned=await db.select({id:properties.id,coverImageUrl:properties.coverImageUrl}).from(properties).where(eq(properties.clerkId,userId))
- let imported=0,failed=0,skipped=0
- for(const row of owned){
-  if(row.coverImageUrl){skipped++;continue}
-  try{await fetchListingPhoto(row.id);imported++}catch{failed++}
- }
- return {imported,failed,skipped}
+ const pending=owned.filter(r=>!r.coverImageUrl)
+ const results=await Promise.allSettled(pending.map(r=>fetchListingPhoto(r.id)))
+ return {imported:results.filter(r=>r.status==="fulfilled").length,failed:results.filter(r=>r.status==="rejected").length,skipped:owned.length-pending.length}
 }
