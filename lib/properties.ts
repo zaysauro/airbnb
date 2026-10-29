@@ -280,7 +280,7 @@ export async function saveListingExtras(id:string, image:string, summary:string,
  const {userId}=await auth(); if(!userId) throw new Error("Acesso negado")
  if(image && !validPhoto(image)) throw new Error("Use a URL da imagem original do Airbnb (muscache.com).")
  if(ical && !validIcal(ical)) throw new Error("Use o link iCal exportado pelo Airbnb.")
- await db.update(properties).set({coverImageUrl:image||null,listingSummary:summary.slice(0,3000),icalUrl:ical||null}).where(sql`${properties.id} = ${id} AND ${properties.clerkId} = ${userId}`)
+ await db.update(properties).set({coverImageUrl:image||null,listingSummary:summary.slice(0,3000),...(ical ? {icalUrl:ical}: {})}).where(sql`${properties.id} = ${id} AND ${properties.clerkId} = ${userId}`)
  return {success:true}
 }
 export async function fetchListingPhoto(id:string) {
