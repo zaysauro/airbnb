@@ -27,9 +27,9 @@ export default async function ListingPage({ params }: { params: Params }) {
 				<Navbar />
 				<main className="flex-1 container mx-auto px-4 flex items-center justify-center">
 					<div className="text-center">
-						<h1 className="text-2xl font-semibold mb-4">Listing Not Found</h1>
+						<h1 className="text-2xl font-semibold mb-4">Anúncio não encontrado</h1>
 						<p className="text-gray-600">
-							The listing you're looking for doesn't exist or has been removed.
+							O anúncio procurado não existe ou foi removido.
 						</p>
 					</div>
 				</main>

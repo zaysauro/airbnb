@@ -42,11 +42,11 @@ export function PropertyCard({ property }: { property: ExploreProperty }) {
 						<div className="mt-4 flex items-center justify-between text-sm">
 							<div className="flex items-center gap-1 text-gray-600">
 								<Users className="h-4 w-4" />
-								<span>Up to {property.capacity} guests</span>
+								<span>Até {property.capacity} hóspedes</span>
 							</div>
 							<div className="font-semibold">
 								${property.pricePerNight}{" "}
-								<span className="text-gray-500">night</span>
+								<span className="text-gray-500">diária</span>
 							</div>
 						</div>
 					</CardContent>

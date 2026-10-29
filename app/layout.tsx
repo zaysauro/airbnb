@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 		template: "%s | Cadena - Airbnb"
 	},
 	description:
-		"Import your Airbnb listings to Cadena - Airbnb. Connect directly with guests, avoid fees, and take control of your rental business—all while keeping your data yours.",
+		"Importe seus anúncios do Airbnb para o Cadena - Airbnb. Fale diretamente com os hóspedes, evite taxas e tenha controle sobre sua operação — tudo sem perder o controle dos seus dados.",
 	keywords: [
 		"property management",
 		"vacation rentals",
@@ -25,11 +25,11 @@ export const metadata: Metadata = {
 	creator: "Cadena - Airbnb",
 	openGraph: {
 		type: "website",
-		locale: "en_US",
+		locale: "pt_BR",
 		url: "https://cadena-airbnb.vercel.app",
 		title: "Cadena - Airbnb - Property Management Platform",
 		description:
-			"Import your Airbnb listings to Cadena - Airbnb. Connect directly with guests, avoid fees, and take control of your rental business.",
+			"Importe seus anúncios do Airbnb para o Cadena - Airbnb. Fale diretamente com guests, avoid fees, and take control of your rental business.",
 		siteName: "Cadena - Airbnb",
 		images: [
 			{
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
 		card: "summary_large_image",
 		title: "Cadena - Airbnb - Property Management Platform",
 		description:
-			"Import your Airbnb listings to Cadena - Airbnb. Connect directly with guests, avoid fees, and take control of your rental business.",
+			"Importe seus anúncios do Airbnb para o Cadena - Airbnb. Fale diretamente com guests, avoid fees, and take control of your rental business.",
 		images: ["/opengraph.jpg"]
 	},
 	icons: [
@@ -68,7 +68,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<>
-			<html lang="en">
+			<html lang="pt-BR">
 				<head>
 					<link rel="stylesheet" href="https://use.typekit.net/gnn8txw.css" />
 				</head>

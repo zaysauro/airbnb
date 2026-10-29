@@ -87,12 +87,12 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 								<h3 className="font-semibold">
 									{property.status === "loaded"
 										? property.title
-										: "Property is loading..."}
+										: "Imóvel sendo carregado..."}
 								</h3>
 								<p className="text-sm text-gray-500">
 									{property.status === "loaded"
 										? property.location
-										: "Check back soon!"}
+										: "Confira novamente em instantes."}
 								</p>
 							</div>
 							<TooltipProvider>
@@ -112,7 +112,7 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 											</Button>
 										</TooltipTrigger>
 										<TooltipContent>
-											<p>Open Airbnb listing</p>
+											<p>Abrir anúncio no Airbnb</p>
 										</TooltipContent>
 									</Tooltip>
 
@@ -125,7 +125,7 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 													e.stopPropagation()
 													if (
 														window.confirm(
-															"Are you sure you want to delete this property?"
+															"Tem certeza de que deseja excluir este imóvel?"
 														)
 													) {
 														await deleteProperty(property.id)
@@ -143,7 +143,7 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 											</Button>
 										</TooltipTrigger>
 										<TooltipContent>
-											<p>Delete property</p>
+											<p>Excluir imóvel</p>
 										</TooltipContent>
 									</Tooltip>
 								</div>
@@ -153,13 +153,13 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 						{/* Stats Grid */}
 						<div className="grid grid-cols-2 gap-4">
 							<div>
-								<p className="text-sm text-gray-500">Views</p>
+								<p className="text-sm text-gray-500">Visualizações</p>
 								<p className="text-lg font-semibold">
 									{property.status === "loaded" ? property.views : "—"}
 								</p>
 							</div>
 							<div>
-								<p className="text-sm text-gray-500">Inquiries</p>
+								<p className="text-sm text-gray-500">Consultas</p>
 								<p className="text-lg font-semibold">
 									{property.status === "loaded" ? property.inquiries : "—"}
 								</p>
@@ -168,7 +168,7 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 
 						{/* Price Input */}
 						<div>
-							<p className="text-sm text-gray-500">Price per night</p>
+							<p className="text-sm text-gray-500">Preço por diária</p>
 							<PriceInput
 								propertyId={property.id}
 								initialPrice={property.pricePerNight}

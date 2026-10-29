@@ -21,32 +21,32 @@ export default async function MarketingPage() {
 						<div>
 							<div className="flex items-center gap-2 mb-6">
 								<span className="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full">
-									Open Source
+									Código aberto
 								</span>
 								<span className="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full">
-									Self-Hostable
+									Hospedagem própria
 								</span>
 							</div>
 							<h1 className="text-5xl font-bold tracking-tight">
-								Your Listings.
+								Seus anúncios.
 								<br />
-								<span className="text-primary">Your Relationships.</span>
+								<span className="text-primary">Seus relacionamentos.</span>
 							</h1>
 							<p className="mt-6 text-xl text-gray-600">
-								Import your Airbnb listings to Cadena - Airbnb. Connect directly with
-								guests, avoid fees, and take control of your rental business—all
-								while keeping your data yours.
+								Importe seus anúncios do Airbnb para o Cadena - Airbnb. Fale diretamente com
+								os hóspedes, evite taxas e tenha controle sobre sua operação — tudo
+								sem perder o controle dos seus dados.
 							</p>
 							<div className="mt-8 flex gap-4">
 								<Link href="/dashboard">
 									<Button size="lg">
-										{userId ? "View Dashboard" : "Get Started Free"}
+										{userId ? "Acessar painel" : "Começar agora"}
 									</Button>
 								</Link>
 								<Link href="/explore">
 									<Button size="lg" variant="outline">
 										<Search className="mr-2 h-5 w-5" />
-										Explore Listings
+										Explorar anúncios
 									</Button>
 								</Link>
 							</div>
@@ -62,7 +62,7 @@ export default async function MarketingPage() {
 							<AspectRatio ratio={16 / 9} className="overflow-hidden">
 								<Image
 									src="/screenshot.png"
-									alt="Example listing page"
+									alt="Página de exemplo de anúncio"
 									fill
 									className="object-cover scale-[1.15] origin-center"
 									priority
@@ -79,22 +79,22 @@ export default async function MarketingPage() {
 							<div>
 								<div className="text-4xl font-bold text-primary">100%</div>
 								<div className="mt-2 text-sm text-gray-600">
-									Fee-Free Bookings
+									Reservas sem taxas
 								</div>
 							</div>
 							<div>
 								<div className="text-4xl font-bold text-primary">1-Click</div>
-								<div className="mt-2 text-sm text-gray-600">Airbnb Import</div>
+								<div className="mt-2 text-sm text-gray-600">Importação do Airbnb</div>
 							</div>
 							<div>
 								<div className="text-4xl font-bold text-primary">∞</div>
 								<div className="mt-2 text-sm text-gray-600">
-									Self-Hosting Options
+									Opções de hospedagem própria
 								</div>
 							</div>
 							<div>
 								<div className="text-4xl font-bold text-primary">0BSD</div>
-								<div className="mt-2 text-sm text-gray-600">Licensed</div>
+								<div className="mt-2 text-sm text-gray-600">Licença</div>
 							</div>
 						</div>
 					</div>
@@ -104,7 +104,7 @@ export default async function MarketingPage() {
 				<section className="bg-background">
 					<div className="container mx-auto px-4 py-24 sm:px-6 md:px-8 lg:px-12 xl:px-24 2xl:px-40">
 						<h2 className="text-3xl font-bold text-center">
-							Built for Independent Hosts
+							Criado para anfitriões independentes
 						</h2>
 						<div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
 							<Card>
@@ -113,12 +113,12 @@ export default async function MarketingPage() {
 										<MessageSquare className="h-6 w-6 text-primary" />
 									</div>
 									<h3 className="mt-4 text-xl font-semibold">
-										Direct Guest Communication
+										Comunicação direta com hóspedes
 									</h3>
 									<p className="mt-2 text-gray-600">
-										Connect with guests directly through your preferred
-										channels. Build lasting relationships without platform
-										restrictions.
+										Converse diretamente com os hóspedes pelos seus
+										canais preferidos. Construa relacionamentos duradouros sem
+										restrições das plataformas.
 									</p>
 								</CardContent>
 							</Card>
@@ -129,11 +129,11 @@ export default async function MarketingPage() {
 										<Code2 className="h-6 w-6 text-primary" />
 									</div>
 									<h3 className="mt-4 text-xl font-semibold">
-										Self-Host & Customize
+										Hospede e personalize
 									</h3>
 									<p className="mt-2 text-gray-600">
-										Deploy Cadena - Airbnb on your own infrastructure. Modify the code
-										to match your exact needs. Your platform, your way.
+										Instale o Cadena - Airbnb na sua infraestrutura. Personalize o código
+										para suas necessidades. Sua plataforma, do seu jeito.
 									</p>
 								</CardContent>
 							</Card>
@@ -144,11 +144,11 @@ export default async function MarketingPage() {
 										<Users className="h-6 w-6 text-primary" />
 									</div>
 									<h3 className="mt-4 text-xl font-semibold">
-										Community-Driven
+										Desenvolvimento colaborativo
 									</h3>
 									<p className="mt-2 text-gray-600">
-										Join a community of independent hosts. Share experiences,
-										contribute code, and help shape the future of Cadena - Airbnb.
+										Participe de uma comunidade de anfitriões independentes. Compartilhe experiências,
+										contribua com o código e ajude a melhorar a plataforma.
 									</p>
 								</CardContent>
 							</Card>
@@ -159,14 +159,14 @@ export default async function MarketingPage() {
 				{/* CTA Section */}
 				<section className="container mx-auto px-4 py-24 sm:px-6 md:px-8 lg:px-12 xl:px-24 2xl:px-40">
 					<div className="bg-primary rounded-2xl text-primary-foreground p-12 text-center">
-						<h2 className="text-3xl font-bold">Ready to Take Control?</h2>
+						<h2 className="text-3xl font-bold">Pronto para assumir o controle?</h2>
 						<p className="mt-4 text-xl opacity-90">
-							Join the community of hosts who've embraced true independence.
+							Tenha autonomia para administrar seus imóveis.
 						</p>
 						<div className="mt-8 flex justify-center gap-4">
 							<Link href="/dashboard">
 								<Button size="lg" variant="secondary">
-									{userId ? "View Dashboard" : "Get Started Free"}
+									{userId ? "Acessar painel" : "Começar agora"}
 								</Button>
 							</Link>
 							<Link href="/explore">
@@ -175,7 +175,7 @@ export default async function MarketingPage() {
 									variant="outline"
 									className="bg-primary/10 hover:bg-primary/20"
 								>
-									Explore Listings
+									Explorar anúncios
 								</Button>
 							</Link>
 						</div>

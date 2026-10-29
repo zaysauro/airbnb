@@ -34,16 +34,16 @@ export function AddPropertyForm() {
 				try { await createProperty(url) } catch { setError("Não foi possível cadastrar o imóvel."); return }
 				setUrl("")
 				toast({
-					title: "Property Added",
+					title: "Imóvel adicionado",
 					description: "Imóvel salvo. A importação automática requer a integração Apify."
 				})
 				router.refresh()
 			})
 		} catch (e) {
 			if (e instanceof z.ZodError) {
-				setError("Please enter a valid Airbnb listing URL")
+				setError("Insira um link válido de anúncio do Airbnb")
 			} else {
-				setError("An error occurred while adding the property")
+				setError("Ocorreu um erro ao adicionar o imóvel")
 			}
 		}
 	}
@@ -51,11 +51,11 @@ export function AddPropertyForm() {
 	return (
 		<Card>
 			<CardContent className="p-6">
-				<h2 className="text-xl font-semibold mb-4">Add New Property</h2>
+				<h2 className="text-xl font-semibold mb-4">Adicionar novo imóvel</h2>
 				<form onSubmit={handleSubmit} className="flex flex-col gap-4">
 					<div className="flex gap-4">
 						<Input
-							placeholder="Enter your Airbnb listing URL"
+							placeholder="Cole o link do anúncio no Airbnb"
 							className="flex-1"
 							value={url}
 							onChange={(e) => setUrl(e.target.value)}
@@ -63,7 +63,7 @@ export function AddPropertyForm() {
 						/>
 						<Button type="submit" disabled={isPending}>
 							<Home className="mr-2 h-4 w-4" />
-							{isPending ? "Adding..." : "Add Property"}
+							{isPending ? "Adicionando..." : "Adicionar imóvel"}
 						</Button>
 					</div>
 					{error && <p className="text-sm text-red-500">{error}</p>}

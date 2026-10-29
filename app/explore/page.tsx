@@ -39,9 +39,9 @@ export default async function ExplorePage() {
 			<main className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-24 2xl:px-40">
 				{/* Hero Section */}
 				<section className="py-12">
-					<h1 className="text-4xl font-bold">Explore Properties</h1>
+					<h1 className="text-4xl font-bold">Explorar imóveis</h1>
 					<p className="mt-2 text-xl text-gray-600">
-						Discover unique homes and experiences across our platform
+						Descubra imóveis e experiências disponíveis em nossa plataforma
 					</p>
 				</section>
 

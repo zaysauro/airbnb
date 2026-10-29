@@ -13,7 +13,7 @@ export async function PropertiesList() {
 				<CardHeader className="space-y-4 flex items-center justify-center text-center">
 					<Ghost className="w-12 h-12 text-muted-foreground" />
 					<CardDescription>
-						No properties found. Add your first property to get started.
+						Nenhum imóvel encontrado. Adicione seu primeiro imóvel para começar.
 					</CardDescription>
 				</CardHeader>
 			</Card>

@@ -156,8 +156,8 @@ export async function getExploreProperties(): Promise<ExploreProperty[]> {
 
 	return results.map((result) => ({
 		id: result.id,
-		title: result.title ?? "Untitled Property",
-		location: result.location ?? "Unknown Location",
+		title: result.title ?? "Imóvel sem título",
+		location: result.location ?? "Localização não informada",
 		propertyType: result.propertyType ?? "Property",
 		capacity: result.capacity ?? 1,
 		rating: result.rating,
