@@ -3,13 +3,11 @@ import { ApifyWebhookPayloadSchema, fetchAndStoreResults } from "@/lib/apify"
 import { getUserEmailAddresses } from "@/lib/clerk"
 import { db } from "@/lib/db"
 import { logger } from "@/lib/logger"
-import { FROM_EMAIL, postmark } from "@/lib/postmark"
+import { FROM_EMAIL, getPostmarkClient } from "@/lib/postmark"
 import { eq } from "drizzle-orm"
 import { NextResponse } from "next/server"
 
-if (!process.env.VERCEL_URL) {
-	throw new Error("Missing VERCEL_URL environment variable")
-}
+
 
 export async function POST(request: Request) {
 	logger.info("Received webhook request", {
@@ -21,7 +19,7 @@ export async function POST(request: Request) {
 	const url = new URL(request.url)
 	const secret = url.searchParams.get("secret")
 
-	if (secret !== process.env.WEBHOOK_SECRET) {
+	if (!process.env.WEBHOOK_SECRET || secret !== process.env.WEBHOOK_SECRET) {
 		return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 	}
 
@@ -82,7 +80,8 @@ export async function POST(request: Request) {
 
 		const userEmails = await getUserEmailAddresses(job.properties.clerkId)
 
-		if (userEmails.length > 0) {
+		const postmark = getPostmarkClient()
+		if (userEmails.length > 0 && postmark) {
 			await postmark.sendEmail({
 				From: FROM_EMAIL,
 				To: userEmails[0],
@@ -91,7 +90,7 @@ export async function POST(request: Request) {
 					job.properties.listingData?.data.h1Title as string
 				}" has been successfully processed and is now available in your dashboard.
 
-You can check out your listing at https://freshair.vercel.app/listing/${job.properties.id}`
+You can check out your listing at https://cadena-airbnb-bruno-02a0.vercel.app/listing/${job.properties.id}`
 			})
 			logger.info("Notification email sent", { to: userEmails[0] })
 		}
