@@ -66,15 +66,15 @@ export async function setupAction(formData: FormData) {
  const sql = database()
  let id: string | null = null
  try {
-  const rows = await sql.begin(async tx => {
+  await sql.begin(async tx => {
    await tx`SELECT pg_advisory_xact_lock(8151642)`
    const existing = await tx`SELECT id FROM app_users LIMIT 1`
-   if (existing.length) return []
+   if (existing.length) return
    const identifier = randomUUID()
    const hash = await passwordHash(password)
-   return tx`INSERT INTO app_users (id,email,password_hash) VALUES (${identifier},${email},${hash}) RETURNING id`
+   const inserted = await tx`INSERT INTO app_users (id,email,password_hash) VALUES (${identifier},${email},${hash}) RETURNING id`
+   id = String(inserted[0].id)
   })
-  if (rows.length) id = String(rows[0].id)
  } finally { await sql.end() }
  if (!id) redirect("/login")
  await createSession(id)
