@@ -13,7 +13,7 @@
 		--popover: 0 0% 100%;
 		--popover-foreground: 224 71.4% 4.1%;
 
-		--primary: 262 83% 58%;
+		--primary: 25 95% 51%;
 		--primary-foreground: 210 20% 98%;
 
 		--secondary: 220 14.3% 95.9%;
@@ -22,47 +22,47 @@
 		--muted: 220 14.3% 95.9%;
 		--muted-foreground: 220 8.9% 46.1%;
 
-		--accent: 262 83% 96%;
-		--accent-foreground: 262 83% 28%;
+		--accent: 24 100% 96%;
+		--accent-foreground: 22 85% 30%;
 
 		--destructive: 0 84.2% 60.2%;
 		--destructive-foreground: 210 20% 98%;
 
 		--border: 220 13% 91%;
 		--input: 220 13% 91%;
-		--ring: 262 83% 58%;
+		--ring: 25 95% 51%;
 
 		--radius: 0.5rem;
 	}
 
 	.dark {
-		--background: 224 71.4% 4.1%;
+		--background: 0 0% 4%;
 		--foreground: 210 20% 98%;
 
-		--card: 224 71.4% 4.1%;
+		--card: 0 0% 8%;
 		--card-foreground: 210 20% 98%;
 
-		--popover: 224 71.4% 4.1%;
+		--popover: 0 0% 9%;
 		--popover-foreground: 210 20% 98%;
 
-		--primary: 262 83% 58%;
-		--primary-foreground: 210 20% 98%;
+		--primary: 25 95% 51%;
+		--primary-foreground: 0 0% 7%;
 
-		--secondary: 215 27.9% 16.9%;
+		--secondary: 0 0% 15%;
 		--secondary-foreground: 210 20% 98%;
 
-		--muted: 215 27.9% 16.9%;
-		--muted-foreground: 217.9 10.6% 64.9%;
+		--muted: 0 0% 15%;
+		--muted-foreground: 0 0% 76%;
 
-		--accent: 262 83% 20%;
+		--accent: 24 75% 18%;
 		--accent-foreground: 210 20% 98%;
 
 		--destructive: 0 62.8% 30.6%;
 		--destructive-foreground: 210 20% 98%;
 
-		--border: 215 27.9% 16.9%;
-		--input: 215 27.9% 16.9%;
-		--ring: 262 83% 58%;
+		--border: 0 0% 15%;
+		--input: 0 0% 15%;
+		--ring: 25 95% 51%;
 	}
 }
 
@@ -74,3 +74,12 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+/* Contrast overrides for components using legacy fixed gray shades. */
+.dark .text-gray-500, .dark .text-gray-600 { color: hsl(0 0% 78%); }
+.dark .text-gray-700, .dark .text-gray-800, .dark .text-gray-900 { color: hsl(0 0% 92%); }
+.dark .bg-white { background-color: hsl(0 0% 8%); }
+.dark .bg-gray-50, .dark .bg-gray-100 { background-color: hsl(0 0% 12%); }
+.dark input, .dark textarea, .dark select { color: hsl(var(--foreground)); background-color: hsl(var(--background)); }
+.dark input::placeholder, .dark textarea::placeholder { color: hsl(var(--muted-foreground)); }
+.dark ::selection { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
