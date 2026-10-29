@@ -11,22 +11,16 @@ import { z } from "zod"
 
 const ACTOR_ID = "PD6Eb2AlmsXqGxffs"
 
-if (!process.env.APIFY_API_TOKEN) {
-	throw new Error("APIFY_API_TOKEN is not set")
+function getApify() {
+ const token = process.env.APIFY_API_TOKEN
+ const secret = process.env.WEBHOOK_SECRET
+ const origin = process.env.VERCEL_URL
+ if (!token || !secret || !origin) throw new Error("Apify integration is not configured")
+ const client = new ApifyClient({ token })
+ const listingActor = client.actor(ACTOR_ID)
+ const webhookUrl = `https://${origin}/api/apify-webhook?secret=${encodeURIComponent(secret)}`
+ return { client, listingActor, webhookUrl }
 }
-
-if (!process.env.VERCEL_URL) {
-	throw new Error("VERCEL_URL is not set")
-}
-
-if (!process.env.WEBHOOK_SECRET) {
-	throw new Error("WEBHOOK_SECRET is not set")
-}
-
-const WEBHOOK_URL = `https://${process.env.VERCEL_URL}/api/apify-webhook?secret=${process.env.WEBHOOK_SECRET}`
-
-const client = new ApifyClient({ token: process.env.APIFY_API_TOKEN })
-const listingActor = await client.actor(ACTOR_ID)
 
 export const ApifyWebhookPayloadSchema = z.object({
 	userId: z.string(),
@@ -48,6 +42,7 @@ export type ApifyWebhookPayload = z.infer<typeof ApifyWebhookPayloadSchema>
 export async function queueScraping(url: string, propertyId: string) {
 	logger.info("Starting scraping job", { url, propertyId })
 	const id = nanoid()
+	const { listingActor, webhookUrl } = getApify()
 
 	const input = {
 		startUrls: [{ url }]
@@ -58,7 +53,7 @@ export async function queueScraping(url: string, propertyId: string) {
 			webhooks: [
 				{
 					eventTypes: ["ACTOR.RUN.SUCCEEDED"],
-					requestUrl: WEBHOOK_URL,
+					requestUrl: webhookUrl,
 					idempotencyKey: id
 				}
 			]
@@ -107,6 +102,7 @@ export async function fetchAndStoreResults(runId: string) {
 			throw new Error("Job not found")
 		}
 
+		const { client, listingActor } = getApify()
 		const runs = await listingActor.runs()
 		const list = await runs.list()
 		const run = list.items.find((r) => r.id === runId)
