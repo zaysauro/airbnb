@@ -49,6 +49,8 @@ export type VisualProperty = {
 	id: string
 	url: string
 	pricePerNight: number
+	catalogTitle?: string | null
+	catalogLocation?: string | null
 } & (
 	| { status: "pending" }
 	| {
@@ -68,6 +70,8 @@ export async function getProperties(): Promise<VisualProperty[]> {
 		.select({
 			id: properties.id,
 			url: properties.url,
+			catalogTitle: properties.catalogTitle,
+			catalogLocation: properties.catalogLocation,
 			title: sql<
 				string | null
 			>`(${properties.listingData}::json->'data'->>'h1Title')`,
@@ -89,6 +93,8 @@ export async function getProperties(): Promise<VisualProperty[]> {
 				id: result.id,
 				url: result.url,
 				pricePerNight: result.pricePerNight,
+				catalogTitle: result.catalogTitle,
+				catalogLocation: result.catalogLocation,
 				status: "pending" as const
 			}
 		}

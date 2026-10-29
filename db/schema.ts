@@ -14,6 +14,8 @@ export const properties = pgTable(
 		id: text("id").primaryKey(),
 		clerkId: text("clerk_id").notNull(),
 		url: text("url").notNull(),
+		catalogTitle: text("catalog_title"),
+		catalogLocation: text("catalog_location"),
 		listingData: json("listing_data").$type<Listing>(),
 		views: integer("views").notNull().default(0),
 		inquiries: integer("inquiries").notNull().default(0),

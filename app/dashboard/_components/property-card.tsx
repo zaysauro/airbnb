@@ -76,7 +76,7 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 				className={`${
 					property.status === "loaded"
 						? "cursor-pointer hover:shadow-lg transition-shadow"
-						: "opacity-50"
+						 : "border-orange-200 dark:border-orange-950"
 				}`}
 			>
 				<CardContent className="p-6">
@@ -87,12 +87,12 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 								<h3 className="font-semibold">
 									{property.status === "loaded"
 										? property.title
-										: "Imóvel sendo carregado..."}
+										: (property.catalogTitle || "Aguardando importação dos detalhes")}
 								</h3>
 								<p className="text-sm text-gray-500">
 									{property.status === "loaded"
 										? property.location
-										: "Confira novamente em instantes."}
+										: (property.catalogLocation || "Detalhes ainda não importados")}
 								</p>
 							</div>
 							<TooltipProvider>
@@ -132,11 +132,9 @@ export function PropertyCard({ property }: { property: VisualProperty }) {
 														router.refresh()
 													}
 												}}
-												disabled={property.status === "pending"}
+												disabled={false}
 												className={
-													property.status === "pending"
-														? "opacity-50 cursor-not-allowed"
-														: ""
+													""
 												}
 											>
 												<Trash2 className="h-4 w-4 text-red-500" />
