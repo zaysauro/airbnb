@@ -9,7 +9,7 @@ interface LocationSectionProps {
 export function LocationSection({ location }: LocationSectionProps) {
 	return (
 		<div>
-			<h2 className="text-2xl font-medium">Where you'll be</h2>
+			<h2 className="text-2xl font-medium">Onde você ficará</h2>
 			<div className="mt-4">
 				<h3 className="font-medium">{location.subtitle}</h3>
 

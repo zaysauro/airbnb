@@ -9,7 +9,7 @@ interface HostDetailsProps {
 export function HostDetails({ host }: HostDetailsProps) {
 	return (
 		<div>
-			<h2 className="text-2xl font-medium">Meet your hosts</h2>
+			<h2 className="text-2xl font-medium">Conheça os anfitriões</h2>
 			<div className="mt-6 space-y-6">
 				{/* Host info and stats */}
 				<div className="flex items-start gap-6">
@@ -26,23 +26,23 @@ export function HostDetails({ host }: HostDetailsProps) {
 						<div>
 							<h3 className="text-xl font-medium">{host.host.name}</h3>
 							<p className="text-gray-500">
-								Joined {host.host.stats.yearsHosting} years ago
+								Anfitrião há {host.host.stats.yearsHosting} anos
 							</p>
 						</div>
 
 						<div className="flex gap-4">
 							<div className="flex items-center gap-2">
 								<Star className="h-5 w-5" />
-								<span>{host.host.stats.rating} Rating</span>
+								<span>{host.host.stats.rating} de avaliação</span>
 							</div>
 							<div className="flex items-center gap-2">
 								<MessageSquare className="h-5 w-5" />
-								<span>{host.host.stats.reviews} Reviews</span>
+								<span>{host.host.stats.reviews} avaliações</span>
 							</div>
 							{host.host.isVerified && (
 								<div className="flex items-center gap-2">
 									<Shield className="h-5 w-5" />
-									<span>Identity verified</span>
+									<span>Identidade verificada</span>
 								</div>
 							)}
 						</div>
@@ -71,10 +71,10 @@ export function HostDetails({ host }: HostDetailsProps) {
 					</div>
 				)}
 
-				{/* Co-hosts */}
+				{/* Coanfitriões */}
 				{host.cohosts.length > 0 && (
 					<div className="mt-6">
-						<h3 className="text-lg font-medium mb-4">Co-hosts</h3>
+						<h3 className="text-lg font-medium mb-4">Coanfitriões</h3>
 						<div className="flex gap-4">
 							{host.cohosts.map((cohost) => (
 								<div key={cohost.userId} className="flex items-center gap-2">

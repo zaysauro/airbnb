@@ -8,11 +8,11 @@ interface ThingsToKnowProps {
 export function ThingsToKnow({ policies }: ThingsToKnowProps) {
 	return (
 		<div>
-			<h2 className="text-2xl font-medium">Things to know</h2>
+			<h2 className="text-2xl font-medium">Informações importantes</h2>
 			<div className="mt-4 grid grid-cols-3 gap-8">
 				{/* House Rules */}
 				<div>
-					<h3 className="font-medium mb-4">House rules</h3>
+					<h3 className="font-medium mb-4">Regras da casa</h3>
 					<ul className="space-y-4">
 						{policies.houseRules.sections.flatMap((section) =>
 							section.rules.map((rule) => (
@@ -34,7 +34,7 @@ export function ThingsToKnow({ policies }: ThingsToKnowProps) {
 
 				{/* Safety */}
 				<div>
-					<h3 className="font-medium mb-4">Safety & property</h3>
+					<h3 className="font-medium mb-4">Segurança e propriedade</h3>
 					<ul className="space-y-4">
 						{policies.safety.items.map((item) => (
 							<li
@@ -52,7 +52,7 @@ export function ThingsToKnow({ policies }: ThingsToKnowProps) {
 
 				{/* Cancellation */}
 				<div>
-					<h3 className="font-medium mb-4">Cancellation policy</h3>
+					<h3 className="font-medium mb-4">Política de cancelamento</h3>
 					<p className="text-gray-600">{policies.cancellation.policy}</p>
 				</div>
 			</div>

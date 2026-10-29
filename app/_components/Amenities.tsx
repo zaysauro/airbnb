@@ -16,7 +16,7 @@ interface AmenitiesProps {
 export function Amenities({ amenities }: AmenitiesProps) {
 	return (
 		<div>
-			<h2 className="text-2xl font-medium">What this place offers</h2>
+			<h2 className="text-2xl font-medium">O que este imóvel oferece</h2>
 			<div className="mt-6 grid grid-cols-2 gap-4">
 				{amenities.groups.slice(0, 6).map((group) => (
 					<div
@@ -32,12 +32,12 @@ export function Amenities({ amenities }: AmenitiesProps) {
 			<Dialog>
 				<DialogTrigger asChild>
 					<Button variant="outline" className="mt-4">
-						Show all {amenities.count} amenities
+						Mostrar todas as {amenities.count} comodidades
 					</Button>
 				</DialogTrigger>
 				<DialogContent className="sm:max-w-[768px] max-h-[80vh] overflow-y-auto">
 					<DialogHeader>
-						<DialogTitle>What this place offers</DialogTitle>
+						<DialogTitle>O que este imóvel oferece</DialogTitle>
 					</DialogHeader>
 					<div className="grid grid-cols-2 gap-8">
 						{amenities.groups.map((group) => (

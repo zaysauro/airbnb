@@ -84,7 +84,7 @@ export function MapSection({ coordinates, radiusInMeters }: MapSectionProps) {
 			ref={mapContainer}
 			className="mt-4 rounded-lg overflow-hidden h-[400px] w-full bg-muted"
 			role="img"
-			aria-label={`Map showing location at ${coordinates.latitude},${coordinates.longitude}`}
+			aria-label={`Mapa mostrando a localização em ${coordinates.latitude},${coordinates.longitude}`}
 		/>
 	)
 }

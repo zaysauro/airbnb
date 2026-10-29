@@ -33,7 +33,7 @@ export function Gallery({ images, className }: GalleryProps) {
 				<AspectRatio ratio={2 / 1} className="overflow-hidden rounded-l-lg">
 					<Image
 						src={horizontalImage.src}
-						alt={horizontalImage.caption || "Gallery image"}
+						alt={horizontalImage.caption || "Imagem da galeria"}
 						fill
 						className="cursor-pointer object-cover"
 					/>
@@ -43,7 +43,7 @@ export function Gallery({ images, className }: GalleryProps) {
 				<AspectRatio key={image.src} ratio={1} className="overflow-hidden">
 					<Image
 						src={image.src}
-						alt={image.caption || "Gallery image"}
+						alt={image.caption || "Imagem da galeria"}
 						fill
 						className="cursor-pointer object-cover"
 					/>

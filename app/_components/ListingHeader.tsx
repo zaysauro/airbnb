@@ -13,10 +13,10 @@ export function ListingHeader({ overview }: ListingHeaderProps) {
 	return (
 		<div>
 			<h2 className="text-2xl font-medium">
-				{overview.propertyType} in {overview.location}
+				{overview.propertyType} em {overview.location}
 			</h2>
 			<h3 className="mt-1 text-base text-gray-500">
-				{details.join(" · ")} · {overview.capacity} guests
+				{details.join(" · ")} · {overview.capacity} hóspedes
 			</h3>
 		</div>
 	)

@@ -18,7 +18,7 @@ export function AboutSpace({ description }: AboutSpaceProps) {
 
 	return (
 		<div>
-			<h2 className="text-2xl font-medium">About this space</h2>
+			<h2 className="text-2xl font-medium">Sobre este espaço</h2>
 			<div className="mt-4 space-y-4">
 				{/* First section */}
 				<div key={`section-${firstSection.content.substring(0, 20)}`}>
@@ -32,14 +32,14 @@ export function AboutSpace({ description }: AboutSpaceProps) {
 					/>
 				</div>
 
-				{/* Show more button and dialog */}
+				{/* Mostrar mais button and dialog */}
 				<Dialog>
 					<DialogTrigger asChild>
-						<Button variant="outline">Show more</Button>
+						<Button variant="outline">Mostrar mais</Button>
 					</DialogTrigger>
 					<DialogContent className="sm:max-w-[768px] max-h-[80vh] overflow-y-auto">
 						<DialogHeader>
-							<DialogTitle>About this space</DialogTitle>
+							<DialogTitle>Sobre este espaço</DialogTitle>
 						</DialogHeader>
 						<div className="space-y-4">
 							{remainingSections.map((section) => (

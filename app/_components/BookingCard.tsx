@@ -50,13 +50,13 @@ export function BookingCard({
 			await incrementPropertyInquiries(propertyId)
 
 			toast({
-				title: "Booking Request Sent!",
-				description: "The property owner will contact you soon."
+				title: "Solicitação de reserva enviada!",
+				description: "O responsável pelo imóvel entrará em contato em breve."
 			})
 		} catch (error) {
 			toast({
-				title: "Error",
-				description: "Failed to send booking request. Please try again.",
+				title: "Erro",
+				description: "Não foi possível enviar a solicitação. Tente novamente.",
 				variant: "destructive"
 			})
 		} finally {
@@ -70,20 +70,20 @@ export function BookingCard({
 				<CardContent className="p-6">
 					<div className="flex items-baseline gap-1">
 						<span className="text-2xl font-bold">${pricePerNight}</span>
-						<span className="text-gray-500">night</span>
+						<span className="text-gray-500">por diária</span>
 					</div>
 					<div className="mt-4 space-y-4">
 						<DatePickerWithRange date={dates} onDateSelect={setDates} />
 						<Select defaultValue="1" onValueChange={setGuests}>
 							<SelectTrigger>
-								<SelectValue placeholder="Number of guests" />
+								<SelectValue placeholder="Número de hóspedes" />
 							</SelectTrigger>
 							<SelectContent>
 								{[...Array(capacity)].map((_, i) => {
 									const guestCount = i + 1
 									return (
 										<SelectItem key={guestCount} value={guestCount.toString()}>
-											{guestCount} {guestCount === 1 ? "guest" : "guests"}
+											{guestCount} {guestCount === 1 ? "hóspede" : "hóspedes"}
 										</SelectItem>
 									)
 								})}
@@ -91,7 +91,7 @@ export function BookingCard({
 						</Select>
 						<Input
 							type="email"
-							placeholder="Your email address"
+							placeholder="Seu endereço de e-mail"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							required
@@ -102,7 +102,7 @@ export function BookingCard({
 						onClick={handleBook}
 						disabled={!email || !dates || isLoading}
 					>
-						{isLoading ? "Sending..." : "Reserve"}
+						{isLoading ? "Enviando..." : "Solicitar reserva"}
 					</Button>
 				</CardContent>
 			</Card>

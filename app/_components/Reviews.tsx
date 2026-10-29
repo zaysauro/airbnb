@@ -22,13 +22,13 @@ export function Reviews({ reviews, rating }: ReviewsProps) {
 
 	return (
 		<div>
-			<h2 className="text-2xl font-medium">Reviews</h2>
+			<h2 className="text-2xl font-medium">Avaliações</h2>
 			<div className="mt-4">
 				<div className="flex items-center gap-2">
 					<Star className="h-5 w-5 fill-current" />
 					<span className="font-medium">{rating}</span>
 					<span className="text-gray-500">·</span>
-					<span className="text-gray-500">{reviews.length} reviews</span>
+					<span className="text-gray-500">{reviews.length} avaliações</span>
 				</div>
 
 				<div className="mt-6 grid grid-cols-2 gap-6">
@@ -40,7 +40,7 @@ export function Reviews({ reviews, rating }: ReviewsProps) {
 				<Dialog>
 					<DialogTrigger asChild>
 						<Button variant="outline" className="mt-6">
-							Show all {reviews.length} reviews
+							Show all {reviews.length} avaliações
 						</Button>
 					</DialogTrigger>
 					<DialogContent className="sm:max-w-[768px] max-h-[80vh] overflow-y-auto">
@@ -51,7 +51,7 @@ export function Reviews({ reviews, rating }: ReviewsProps) {
 									<span>{rating}</span>
 									<span className="text-gray-500">·</span>
 									<span className="text-gray-500">
-										{reviews.length} reviews
+										{reviews.length} avaliações
 									</span>
 								</div>
 							</DialogTitle>

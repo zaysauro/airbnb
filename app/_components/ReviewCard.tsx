@@ -52,7 +52,7 @@ export function ReviewCard({
 			/>
 			{review.response && showFullComment && (
 				<div className="mt-4 pl-4 border-l-2 border-gray-200">
-					<p className="font-medium">Response from host:</p>
+					<p className="font-medium">Resposta do anfitrião:</p>
 					<p className="mt-1 text-gray-600">{review.response}</p>
 				</div>
 			)}

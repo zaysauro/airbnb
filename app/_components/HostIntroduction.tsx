@@ -18,9 +18,9 @@ export function HostIntroduction({ host }: HostIntroductionProps) {
 				/>
 			</div>
 			<div>
-				<h3 className="text-lg font-medium">Hosted by {host.name}</h3>
+				<h3 className="text-lg font-medium">Hospedado por {host.name}</h3>
 				<p className="text-sm text-gray-500">
-					{host.stats.yearsHosting} years hosting · {host.stats.reviews} reviews
+					{host.stats.yearsHosting} anos como anfitrião · {host.stats.reviews} avaliações
 					· {host.isSuperhost ? "Superhost" : ""}
 				</p>
 			</div>
