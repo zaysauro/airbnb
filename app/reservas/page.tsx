@@ -5,7 +5,7 @@ import { redirect } from "next/navigation"
 export const dynamic="force-dynamic"
 export default async function Reservations(){
  const {userId}=await auth();if(!userId)redirect("/login")
- const {properties,reservations}=await reservationData()
+ const {properties,reservations,calendars}=await reservationData()
  return <div><Navbar/><main className="container mx-auto max-w-6xl px-4 py-8 space-y-8">
  <header><h1 className="text-3xl font-bold">Gestão de reservas</h1><p className="text-muted-foreground mt-2">Registre reservas e bloqueie conflitos internos. Dados inseridos aqui não são enviados ao Airbnb; confirme disponibilidade no anúncio ou iCal.</p></header>
  <section className="rounded-xl border bg-card text-card-foreground p-5"><h2 className="text-xl font-semibold mb-4">Registrar reserva</h2>
@@ -18,6 +18,14 @@ export default async function Reservations(){
  <label className="text-sm grid gap-1">Observações<input name="notes" maxLength={1000} className="rounded-md border bg-background p-2"/></label>
  <button disabled={!properties.length} className="rounded-md bg-primary text-primary-foreground px-5 py-2 font-medium w-fit">Salvar reserva</button>
  </form></section>
+ <section className="space-y-3"><h2 className="text-xl font-semibold">Calendários dos imóveis</h2><p className="text-sm text-muted-foreground">Datas bloqueadas são provenientes da exportação iCal do Airbnb. Reservas internas são exibidas separadamente. Não interprete datas sem bloqueio como disponibilidade confirmada.</p>
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-3">{calendars.map(c=>{
+ const internal=reservations.filter(r=>r.propertyId===c.propertyId&&r.status!=="cancelada")
+ return <article key={c.propertyId} className="rounded-xl border bg-card p-4 space-y-2"><h3 className="font-semibold">{c.name}</h3><p className="text-xs text-muted-foreground">{c.state==="missing"?"iCal não conectado — configure em Painel → Fotos e calendário":c.state==="error"?"Falha ao consultar iCal — status desconhecido":"iCal consultado em "+new Date(c.checkedAt!).toLocaleString("pt-BR")}</p>
+ <div className="flex gap-2 text-xs flex-wrap"><span className="bg-orange-100 text-orange-950 rounded px-2 py-1">{c.state==="ok"?c.blocked.length+" noites bloqueadas no Airbnb":"Bloqueios desconhecidos"}</span><span className="rounded bg-muted px-2 py-1">{internal.length} reservas internas</span></div>
+ {c.state==="ok"&&<details className="text-sm"><summary className="cursor-pointer">Ver noites bloqueadas</summary><div className="max-h-32 overflow-y-auto mt-2">{c.blocked.slice(0,100).map(d=><span key={d} className="inline-block rounded bg-muted px-2 py-1 m-0.5 text-xs">{d.split("-").reverse().join("/")}</span>)}{c.blocked.length===0&&<p className="text-muted-foreground">Nenhum bloqueio informado no arquivo; confirme no Airbnb.</p>}</div></details>}
+ {internal.length>0&&<details className="text-sm"><summary className="cursor-pointer">Ver reservas internas</summary>{internal.map(r=><p key={r.id} className="text-xs text-muted-foreground mt-1">{r.checkIn.split("-").reverse().join("/")} a {r.checkOut.split("-").reverse().join("/")} · {r.status}</p>)}</details>}
+ </article>})}</div></section>
  <section className="space-y-3"><h2 className="text-xl font-semibold">Reservas registradas ({reservations.length})</h2>
  {reservations.length===0&&<p className="text-muted-foreground">Nenhuma reserva interna registrada.</p>}
  {reservations.map(x=><article key={x.id} className="rounded-xl border bg-card text-card-foreground p-4 flex flex-wrap justify-between gap-4"><div className="space-y-1"><h3 className="font-semibold">{x.name}</h3><p>{x.guest}</p><p className="text-sm text-muted-foreground">{x.checkIn.split("-").reverse().join("/")} a {x.checkOut.split("-").reverse().join("/")}</p><p className="text-xs text-muted-foreground">{x.source==="airbnb"?"Airbnb (manual)":x.source==="manual"?"Direta/manual":"Outro canal"} · {x.notes}</p></div>

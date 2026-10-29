@@ -4,15 +4,18 @@ import { auth } from "@/lib/auth"
 import postgres from "postgres"
 import { randomUUID } from "node:crypto"
 import { revalidatePath } from "next/cache"
+import { calendarStatus, readIcal } from "@/lib/ical-availability"
 const sqlClient=()=>{if(!process.env.POSTGRES_URL)throw Error("Banco não configurado");return postgres(process.env.POSTGRES_URL,{max:1})}
 async function user(){const {userId}=await auth();if(!userId)throw Error("Acesso negado");return userId}
 export async function reservationData(){
  const owner=await user(),sql=sqlClient()
  try {
  const [properties,reservations]=await Promise.all([
- sql`SELECT id, COALESCE(catalog_title, url) AS name,url FROM properties WHERE clerk_id=${owner} ORDER BY name`,
+ sql`SELECT id, COALESCE(catalog_title, url) AS name,url,ical_url FROM properties WHERE clerk_id=${owner} ORDER BY name`,
  sql`SELECT r.id,r.property_id,r.guest_name,r.check_in::text AS check_in,r.check_out::text AS check_out,r.status,r.source,r.notes,COALESCE(p.catalog_title,p.url) AS property_name FROM property_reservations r JOIN properties p ON p.id=r.property_id WHERE r.owner_id=${owner} AND p.clerk_id=${owner} ORDER BY r.check_in DESC LIMIT 300`])
- return {properties:properties.map(x=>({id:String(x.id),name:String(x.name),url:String(x.url)})),reservations:reservations.map(x=>({id:String(x.id),propertyId:String(x.property_id),guest:String(x.guest_name),checkIn:String(x.check_in),checkOut:String(x.check_out),status:String(x.status),source:String(x.source),notes:String(x.notes),name:String(x.property_name)}))}
+ const owned=properties.map(x=>({id:String(x.id),name:String(x.name),url:String(x.url),ical:x.ical_url?String(x.ical_url):null}))
+ const calendars=await calendarStatus(owned)
+ return {calendars,properties:owned.map(({id,name,url})=>({id,name,url})),reservations:reservations.map(x=>({id:String(x.id),propertyId:String(x.property_id),guest:String(x.guest_name),checkIn:String(x.check_in),checkOut:String(x.check_out),status:String(x.status),source:String(x.source),notes:String(x.notes),name:String(x.property_name)}))}
  }finally{await sql.end()}
 }
 export async function addReservation(form:FormData) {
@@ -24,8 +27,14 @@ export async function addReservation(form:FormData) {
  try {
  await sql.begin(async tx=>{
  await tx`SELECT pg_advisory_xact_lock(hashtext(${property}))`
- const owns=await tx`SELECT id FROM properties WHERE id=${property} AND clerk_id=${owner}`
+ const owns=await tx`SELECT id,ical_url FROM properties WHERE id=${property} AND clerk_id=${owner}`
  if(!owns.length)throw Error("Imóvel não encontrado")
+ if(owns[0].ical_url){
+  let dates:string[]
+  try{dates=await readIcal(String(owns[0].ical_url))}
+  catch{throw Error("O calendário Airbnb está indisponível. Não é seguro registrar uma reserva sem conferir os bloqueios.")}
+  if(dates.some(d=>d>=start&&d<end))throw Error("Período bloqueado no calendário Airbnb. Confira antes de reservar.")
+ }
  const overlaps=await tx`SELECT id FROM property_reservations WHERE property_id=${property} AND status <> 'cancelada' AND check_in < ${end}::date AND check_out > ${start}::date LIMIT 1`
  if(overlaps.length)throw Error("Já existe uma reserva interna nesse período")
  await tx`INSERT INTO property_reservations(id,property_id,owner_id,guest_name,check_in,check_out,source,notes) VALUES (${randomUUID()},${property},${owner},${guest},${start}::date,${end}::date,${source},${notes})`
