@@ -83,7 +83,7 @@ export default async function MarketingPage() {
 								</div>
 							</div>
 							<div>
-								<div className="text-4xl font-bold text-primary">1-Click</div>
+								<div className="text-4xl font-bold text-primary">1 clique</div>
 								<div className="mt-2 text-sm text-gray-600">Importação do Airbnb</div>
 							</div>
 							<div>
