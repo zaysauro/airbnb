@@ -1,7 +1,7 @@
 "use server"
 
 import { getHostEmailAddress } from "@/lib/clerk"
-import { FROM_EMAIL, postmark } from "@/lib/postmark"
+import { FROM_EMAIL, getPostmarkClient } from "@/lib/postmark"
 import type { DateRange } from "react-day-picker"
 
 interface BookingData {
@@ -13,6 +13,8 @@ interface BookingData {
 }
 
 export async function createBooking(data: BookingData) {
+	const postmark = getPostmarkClient()
+	if (!postmark) throw new Error("Booking requests unavailable: Postmark is not configured")
 	const hostEmail = await getHostEmailAddress(data.propertyId)
 
 	// Send email to host using Postmark directly
