@@ -317,3 +317,14 @@ export async function blockedDates(id:string) {
  }
  return {blocked:Array.from(dates).sort(),checkedAt:new Date().toISOString()}
 }
+
+export async function importAllPropertyPhotos() {
+ const {userId}=await auth();if(!userId)throw new Error("Acesso negado")
+ const owned=await db.select({id:properties.id,coverImageUrl:properties.coverImageUrl}).from(properties).where(eq(properties.clerkId,userId))
+ let imported=0,failed=0,skipped=0
+ for(const row of owned){
+  if(row.coverImageUrl){skipped++;continue}
+  try{await fetchListingPhoto(row.id);imported++}catch{failed++}
+ }
+ return {imported,failed,skipped}
+}

@@ -5,6 +5,7 @@ import { Navbar } from "../_components/Navbar"
 import { AddPropertyForm } from "./_components/add-property-form"
 import { PropertyCardSkeleton } from "./_components/loading-skeleton"
 import { PropertiesList } from "./_components/properties-list"
+import { BulkPhotoImport } from "./_components/bulk-photo-import"
 
 export default async function Dashboard() {
 	const { userId } = await auth()
@@ -29,6 +30,7 @@ export default async function Dashboard() {
 				{/* Properties List Section */}
 				<section className="py-6">
 					<h2 className="text-xl font-semibold mb-4">Seus imóveis</h2>
+					<div className="mb-5"><BulkPhotoImport /></div>
 					<Suspense
 						fallback={
 							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
