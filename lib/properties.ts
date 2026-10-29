@@ -49,6 +49,9 @@ export type VisualProperty = {
 	id: string
 	url: string
 	pricePerNight: number
+	coverImageUrl?: string | null
+	listingSummary?: string | null
+	calendarConnected?: boolean
 	catalogTitle?: string | null
 	catalogLocation?: string | null
 } & (
@@ -72,6 +75,9 @@ export async function getProperties(): Promise<VisualProperty[]> {
 			url: properties.url,
 			catalogTitle: properties.catalogTitle,
 			catalogLocation: properties.catalogLocation,
+			coverImageUrl: properties.coverImageUrl,
+			listingSummary: properties.listingSummary,
+			calendarConnected: sql<boolean>`${properties.icalUrl} IS NOT NULL`,
 			title: sql<
 				string | null
 			>`(${properties.listingData}::json->'data'->>'h1Title')`,
@@ -95,12 +101,20 @@ export async function getProperties(): Promise<VisualProperty[]> {
 				pricePerNight: result.pricePerNight,
 				catalogTitle: result.catalogTitle,
 				catalogLocation: result.catalogLocation,
+				coverImageUrl: result.coverImageUrl,
+				listingSummary: result.listingSummary,
+				calendarConnected: result.calendarConnected,
 				status: "pending" as const
 			}
 		}
 
 		return {
 			status: "loaded" as const,
+			catalogTitle: result.catalogTitle,
+			catalogLocation: result.catalogLocation,
+			coverImageUrl: result.coverImageUrl,
+			listingSummary: result.listingSummary,
+			calendarConnected: result.calendarConnected,
 			id: result.id,
 			url: result.url,
 			title: result.title ?? "",
@@ -252,4 +266,54 @@ export async function getListing(id: string): Promise<ListingWithPrice | null> {
 		data: listing.data,
 		pricePerNight: property.pricePerNight
 	}
+}
+
+function validPhoto(s: string) {
+ try { const u = new URL(s); return u.protocol === "https:" && (u.hostname === "muscache.com" || u.hostname.endsWith(".muscache.com")) }
+ catch {return false}
+}
+function validIcal(s: string) {
+ try { const u = new URL(s); return u.protocol==="https:" && ["www.airbnb.com","airbnb.com","www.airbnb.com.br","airbnb.com.br"].includes(u.hostname) && /^\/calendar\/ical\/\d+\.ics$/.test(u.pathname) }
+ catch {return false}
+}
+export async function saveListingExtras(id:string, image:string, summary:string, ical:string) {
+ const {userId}=await auth(); if(!userId) throw new Error("Acesso negado")
+ if(image && !validPhoto(image)) throw new Error("Use a URL da imagem original do Airbnb (muscache.com).")
+ if(ical && !validIcal(ical)) throw new Error("Use o link iCal exportado pelo Airbnb.")
+ await db.update(properties).set({coverImageUrl:image||null,listingSummary:summary.slice(0,3000),icalUrl:ical||null}).where(sql`${properties.id} = ${id} AND ${properties.clerkId} = ${userId}`)
+ return {success:true}
+}
+export async function fetchListingPhoto(id:string) {
+ const {userId}=await auth();if(!userId) throw new Error("Acesso negado")
+ const [p]=await db.select({url:properties.url}).from(properties).where(sql`${properties.id} = ${id} AND ${properties.clerkId} = ${userId}`).limit(1)
+ if(!p)throw new Error("Imóvel não encontrado")
+ const room=new URL(p.url).pathname.match(/^\/rooms\/(\d+)$/)?.[1]
+ if(!room)throw new Error("Anúncio inválido")
+ const response=await fetch("https://www.airbnb.com.br/rooms/"+room,{cache:"no-store",signal:AbortSignal.timeout(10000),headers:{"User-Agent":"Mozilla/5.0"}})
+ if(!response.ok)throw new Error("Airbnb bloqueou a consulta pública da foto.")
+ const html=await response.text()
+ const match=html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i) || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:image["']/i)
+ const image=match?.[1]?.replaceAll("&amp;","&")||""
+ if(!validPhoto(image))throw new Error("Foto oficial não disponível neste anúncio.")
+ await db.update(properties).set({coverImageUrl:image}).where(sql`${properties.id} = ${id} AND ${properties.clerkId} = ${userId}`)
+ return {success:true,image}
+}
+export async function blockedDates(id:string) {
+ const {userId}=await auth();if(!userId)throw new Error("Acesso negado")
+ const [p]=await db.select({ical:properties.icalUrl}).from(properties).where(sql`${properties.id} = ${id} AND ${properties.clerkId} = ${userId}`).limit(1)
+ if(!p?.ical || !validIcal(p.ical))throw new Error("Vincule primeiro o iCal do Airbnb.")
+ const response=await fetch(p.ical,{cache:"no-store",redirect:"error",signal:AbortSignal.timeout(10000)})
+ if(!response.ok)throw new Error("Não foi possível consultar o calendário.")
+ const data=await response.text()
+ if(data.length>2000000 || !data.includes("BEGIN:VCALENDAR"))throw new Error("Calendário inválido.")
+ const dates=new Set<string>()
+ for(const event of data.split("BEGIN:VEVENT").slice(1)) {
+ const start=event.match(/^DTSTART[^:]*:(\d{8})/m)?.[1],end=event.match(/^DTEND[^:]*:(\d{8})/m)?.[1]
+ if(!start||!end)continue
+ const parse=(s:string)=>Date.UTC(Number(s.slice(0,4)),Number(s.slice(4,6))-1,Number(s.slice(6,8)))
+ const a=parse(start),b=parse(end)
+ if(!Number.isFinite(a)||!Number.isFinite(b)||b<a||b-a>366*86400000)continue
+ for(let t=a;t<b;t+=86400000)dates.add(new Date(t).toISOString().slice(0,10))
+ }
+ return {blocked:Array.from(dates).sort(),checkedAt:new Date().toISOString()}
 }
